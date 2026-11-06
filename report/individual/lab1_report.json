@@ -1,0 +1,179 @@
+{
+ "seed": 4514,
+ "predictions": {
+  "ml_f1": {
+   "text": "dự đoán BoW + Logistic Regression đạt F1 trên tập test khoảng 0.90.",
+   "time": "11:31:22"
+  },
+  "ml_lr": {
+   "text": "Với lr = 0.001, loss sẽ giảm rất chậm và đường loss thoải. Với lr = 50, loss có thể dao động mạnh, tăng giảm thất thường hoặc tăng rất lớn.",
+   "time": "11:39:25"
+  },
+  "dl_curve": {
+   "text": "Val loss không giảm mãi, có thể tăng khi mô hình bị overfitting. Dự đoán MLP sẽ có F1 cao hơn Logistic Regression.",
+   "time": "11:45:49"
+  },
+  "dl_relu": {
+   "text": "Nếu bỏ ReLU, hai lớp Linear liên tiếp tương đương Logistic Regression vì có thể gộp thành một phép biến đổi tuyến tính. Dự đoán F1 sẽ giảm hoặc gần bằng Logistic Regression.",
+   "time": "11:49:52"
+  },
+  "emb_search": {
+   "text": "dự đoán 6 tin nhắn gần nhất chủ yếu là SPAM vì truy vấn có ngữ nghĩa quảng cáo, tặng thưởng và yêu cầu người nhận phản hồi để nhận quà.",
+   "time": "11:56:06"
+  },
+  "emb_tricky": {
+   "text": "Dự đoán Encoder + Logistic Regression sẽ phân loại đúng nhiều hơn BoW vì encoder hiểu ngữ nghĩa và ngữ cảnh tốt hơn, có thể nhận diện spam ngay cả khi tin nhắn né từ khóa quen thuộc.",
+   "time": "11:59:46"
+  },
+  "llm_models": {
+   "text": "Model lớn có F1 cao hơn model nhỏ khoảng 2–5%, nhưng chi phí đắt hơn nhiều lần, llm có thể đạt F1 tốt nhưng chưa chắc vượt mô hình 3b dùng embedding.",
+   "time": "12:34:13"
+  },
+  "llm_fewshot": {
+   "text": "F1 có thể tăng nhẹ nhờ 4 ví dụ giúp LLM nhận diện spam/ham tốt hơn, chi phí mỗi tin tăng khoảng 2–3 lần do prompt chứa thêm token từ 4 ví dụ",
+   "time": "12:34:54"
+  },
+  "tradeoff": {
+   "text": "BoW + Logistic Regression và Embedding + Logistic Regression có khả năng nằm trên đường Pareto vì cân bằng tốt giữa F1 và latency. LLM có thể nằm bên phải SLA 50 ms do thời gian gọi API lớn hơn nhiều.",
+   "time": "12:48:16"
+  },
+  "hard_eval": {
+   "text": "Accuracy của tất cả model sẽ giảm đáng kể trên 50 case khó. BoW khó nhất với các câu dùng từ khóa spam trong ngữ cảnh bình thường hoặc diễn đạt spam bằng từ mới. LLM khó nhất với các câu mơ hồ, châm biếm hoặc cố tình đánh lừa ngữ cảnh.",
+   "time": "12:57:52"
+  }
+ },
+ "checks": {
+  "1.1 vectorize": true,
+  "1.2 sigmoid / predict_proba": true,
+  "1.3 train_logreg": true,
+  "1.4 metrics": true,
+  "2.1 build_mlp": true,
+  "2.2 train_mlp": true,
+  "3.1–3.2 cosine / top_k_similar": true,
+  "3.3 knn_predict": true,
+  "4.2–4.3 prompt / parse_label": true,
+  "4.1 + 4.4 call_openai / llm_classify_batch": true,
+  "tính tay: baseline_accuracy": true,
+  "tính tay: sigmoid_0": true,
+  "tính tay: f1_example": true,
+  "tính tay: cosine_example": true,
+  "tính tay: llm_cost_per_day": true
+ },
+ "experiments": [
+  {
+   "key": "ml_f1",
+   "time": "11:31:25"
+  },
+  {
+   "key": "ml_lr",
+   "time": "11:37:27"
+  },
+  {
+   "key": "ml_lr",
+   "time": "11:39:28"
+  },
+  {
+   "key": "dl_curve",
+   "time": "11:45:51"
+  },
+  {
+   "key": "dl_relu",
+   "time": "11:49:54"
+  },
+  {
+   "key": "emb_search",
+   "time": "11:56:08"
+  },
+  {
+   "key": "emb_tricky",
+   "time": "11:59:51"
+  },
+  {
+   "key": "llm_models",
+   "time": "12:34:16"
+  },
+  {
+   "key": "llm_fewshot",
+   "time": "12:34:55"
+  },
+  {
+   "key": "tradeoff",
+   "time": "12:48:21"
+  },
+  {
+   "key": "hard_eval",
+   "time": "12:57:53"
+  },
+  {
+   "key": "hard_eval",
+   "time": "13:04:46"
+  },
+  {
+   "key": "hard_eval",
+   "time": "13:09:41"
+  }
+ ],
+ "challenge": 2,
+ "results": {
+  "1. BoW + LogReg (tự code)": {
+   "accuracy": 0.9741935483870968,
+   "precision": 0.9871794871794872,
+   "recall": 0.8020833333333334,
+   "f1": 0.8850574712643677,
+   "f1_SUB": 0.8571428571428571,
+   "train_s": 6.388729978999891,
+   "msg_per_s": 27142.5553977319,
+   "p50_ms": 0.04816700015908282,
+   "p95_ms": 0.7679205501290192,
+   "usd_per_1k": 0.0
+  },
+  "2. BoW + MLP (deep learning)": {
+   "accuracy": 0.9896774193548387,
+   "precision": 0.9782608695652174,
+   "recall": 0.9375,
+   "f1": 0.9574468085106383,
+   "f1_SUB": 0.9473684210526316,
+   "train_s": 5.270934787999977,
+   "msg_per_s": 46835.55992551829,
+   "p50_ms": 0.17131100003098254,
+   "p95_ms": 0.2189496502523976,
+   "usd_per_1k": 0.0
+  },
+  "3a. Encoder (MiniLM) + kNN": {
+   "accuracy": 0.9819354838709677,
+   "precision": 0.9183673469387755,
+   "recall": 0.9375,
+   "f1": 0.9278350515463918,
+   "f1_SUB": 0.9473684210526316,
+   "train_s": 132.26476950200004,
+   "msg_per_s": 45.509378554352736,
+   "p50_ms": 65.70375699993747,
+   "p95_ms": 120.21726435007166,
+   "usd_per_1k": 0.0
+  },
+  "3b. Encoder (MiniLM) + LogReg": {
+   "accuracy": 0.9896774193548387,
+   "precision": 0.9680851063829787,
+   "recall": 0.9479166666666666,
+   "f1": 0.9578947368421052,
+   "f1_SUB": 0.9473684210526316,
+   "train_s": 133.47924468600013,
+   "msg_per_s": 60.60945772647131,
+   "p50_ms": 26.505339000095773,
+   "p95_ms": 42.980015249645476,
+   "usd_per_1k": 0.0
+  },
+  "3c. Encoder (MiniLM) + MLP head": {
+   "accuracy": 0.9858064516129033,
+   "precision": 0.9381443298969072,
+   "recall": 0.9479166666666666,
+   "f1": 0.9430051813471502,
+   "f1_SUB": 0.9473684210526316,
+   "train_s": 133.23459907500046,
+   "msg_per_s": 59.67623013238961,
+   "p50_ms": 24.299970499896517,
+   "p95_ms": 33.736914599649026,
+   "usd_per_1k": 0.0
+  }
+ }
+}
